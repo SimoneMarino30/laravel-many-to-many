@@ -12,10 +12,6 @@ class Project extends Model
 
     protected $fillable = ["title", "link", "date", "description", 'type_id'];
 
-    public function technologies() {
-        return $this->belongsToMany(Technology::class);
-    }
-
     // # Mutator date
     protected function getDateAttribute($value) {
         return date('d/m/Y', strtotime($value));
@@ -33,5 +29,10 @@ class Project extends Model
     public function type() {
         return $this->belongsTo(Type::class);
     }
-
+        
+    // # Relations method many to many
+    
+    public function technologies() {
+        return $this->belongsToMany(Technology::class);
+    }
 }
