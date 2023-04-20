@@ -21,7 +21,8 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Title</th>
-      <th scope="col">Stack</th>
+      <th scope="col">Type</th>
+      <th scope="col">Tech</th>
       <th scope="col">Date</th>
       <th scope="col">Actions</th>
     </tr>
@@ -32,6 +33,16 @@
       <th scope="row">{{ $project->id }}</th>
       <td>{{ $project->title }}</td>
       <td>{{ $project->type?->label }}</td>
+      <td>
+        @forelse($project->technologies as $technology) 
+        {{ $technology->label }} 
+        @unless ($loop->last)
+        , 
+        @endunless
+        @empty 
+        🤷‍♂️ 
+        @endforelse
+      </td>
       <td>{{ $project->date }}</td>
       <td>
         <a href="{{ route('admin.projects.show', $project) }}">

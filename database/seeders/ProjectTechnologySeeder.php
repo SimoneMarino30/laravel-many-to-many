@@ -23,8 +23,9 @@ class ProjectTechnologySeeder extends Seeder
         $technologies = Technology::all()->pluck('id');
 
         for($i = 1; $i < 40; $i++) {
+            // EVITO LA RIPETIZIONE DI TECHNOLOGIES -> ( FIND($i))
             $project = Project::find($i);
-            $project->technologies()->attach($faker->randomElements($technologies));
+            $project->technologies()->attach($faker->randomElements($technologies, 3)); // 3  = 3 TECH EACH PROJECT
         }
 
     }
