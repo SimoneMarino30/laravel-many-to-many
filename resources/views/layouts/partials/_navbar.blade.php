@@ -23,16 +23,16 @@
                             <a class="nav-link @if(request()->routeIs('home*')) active @endif" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.projects.index') }}">{{ __('Projects') }}</a>
+                            <a class="nav-link @if(request()->routeIs('admin.projects.index*')) active @endif" href="{{ route('admin.projects.index') }}">{{ __('Projects') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('projects.index') }}">{{ __('Guest') }}</a>
+                            <a class="nav-link @if(request()->routeIs('projects.index*')) active @endif" href="{{ route('projects.index') }}">{{ __('Guest') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('types.index') }}">{{ __('Stacks') }}</a>
+                            <a class="nav-link @if(request()->routeIs('types.index*')) active @endif" href="{{ route('types.index') }}">{{ __('Stacks') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('tasks.index') }}">{{ __('Tasks') }}</a>
+                            <a class="nav-link @if(request()->routeIs('tasks.index*')) active @endif" href="{{ route('tasks.index') }}">{{ __('Tasks') }}</a>
                         </li>
                     </ul>
                     @endauth
