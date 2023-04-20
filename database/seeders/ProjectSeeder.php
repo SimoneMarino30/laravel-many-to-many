@@ -21,6 +21,8 @@ class ProjectSeeder extends Seeder
     {
 
         $types = Type::all()->pluck('id'); // PLUCK: CONVERTE LA COLLECTIONS IN UN ARRAY
+        // GENERO ANCHE TYPES NULL
+        $types[] = null;
 
         for ($i = 0; $i < 50; $i++) {
             

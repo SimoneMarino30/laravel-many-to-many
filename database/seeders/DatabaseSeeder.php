@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             TypeSeeder::class,
             ProjectSeeder::class,
             UserSeeder::class,
-            TaskSeeder::class
+            TaskSeeder::class,
+            TechnologySeeder::class,
+            ProjectTechnologySeeder::class,
         ]);
     }
 }
