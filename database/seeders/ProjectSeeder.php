@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 
 use Faker\Generator as Faker;
 
@@ -21,14 +22,18 @@ class ProjectSeeder extends Seeder
     {
 
         $types = Type::all()->pluck('id'); // PLUCK: CONVERTE LA COLLECTIONS IN UN ARRAY
-        // GENERO ANCHE TYPES NULL
         $types[] = null;
+        $technologies = Technology::all()->pluck('id');
+        // GENERO ANCHE TYPES NULL
+        
+        $technologies[] = null;
 
         for ($i = 0; $i < 50; $i++) {
             
             $project = new Project;
 
             $project->type_id = $faker->randomElement($types);
+            $project->technology_id = $faker->randomElement($technologies);
             $project->title = $faker->catchPhrase();
             // $project->link = 'https://picsum.photos/300/500';
             $project->date = $faker->date('d/m/Y');

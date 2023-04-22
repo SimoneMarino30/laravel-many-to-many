@@ -36,11 +36,11 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
         $project = new Project;
         $types = Type::all();
-        return view('admin.projects.create', compact('project', 'types'));
+        return view('admin.projects.form', compact('project', 'types'));
     }
 
     /**
@@ -64,6 +64,7 @@ class ProjectController extends Controller
 
         $project->fill($data);
         $project->save();
+
         return redirect()->route('admin.projects.show', $project);
     }
 
@@ -87,7 +88,7 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();   
-        return view('admin.projects.edit', compact('project', 'types'));
+        return view('admin.projects.form', compact('project', 'types'));
     }
 
     /**
@@ -132,7 +133,9 @@ class ProjectController extends Controller
             'link' => 'nullable|image|mimes:jpg,png,jpeg',
             'date' => 'required|string',
             'description' => 'nullable|string',
-            'type_id' => 'nullable|exists:types,id'
+            'type_id' => 'nullable|exists:types,id',
+            // 'label' => 'required|string|max:30',
+            // 'color' => 'required|string|size:7',
         ],
         [
             'title.required' => 'il titolo è obbligatorio',
@@ -147,7 +150,15 @@ class ProjectController extends Controller
 
             'description.string' => 'la descrizione deve essere una stringa',
 
-            'type_id.exists' => 'l\' ID della tipologia non è valido'
+            'type_id.exists' => 'l\' ID della tipologia non è valido',
+
+            // 'label.required' => 'la label è obbligatoria',
+            // 'label.string' => 'la label deve essere una stringa',
+            // 'label.max' => 'la label deve essere massimo dio 30 caratteri',
+
+            // 'color.required' => 'il colore è obbligatorio',
+            // 'color.string' => 'il colore deve essere una stringa',
+            // 'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
 
 
         ])->validate();

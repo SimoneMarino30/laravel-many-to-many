@@ -1,20 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Create a new Project to show:')
+@section('title', $project->id ? 'Modifica Project' . $project->id : 'Crea Project')
 
 @section('content')
-  <h1 class="my-3">Insert details :</h1>
-<form 
-action="{{ route('admin.projects.store') }}" 
-enctype="multipart/form-data" 
-method="POST" class="row gy-3">
+
+@if($project->id)
+  <form 
+  action="{{ route('admin.projects.update', $project) }}" 
+  enctype="multipart/form-data" 
+  method="POST" 
+  class="row gy-3">
+  @method('put')
+@else
+  <form 
+  action="{{ route('admin.projects.store') }}" 
+  enctype="multipart/form-data" 
+  method="POST" class="row gy-3">
+@endif
 
 @csrf
-
 {{-- TITLE --}}
 <div class="col-6">
   <label for="title" class="form-label">Title</label>
-  <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
+  <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') ?? $project->title }}">
   @error('title')
   <div class="invalid-feedback">
     {{ $message }}
@@ -27,7 +35,7 @@ method="POST" class="row gy-3">
   <select class="form-select @error('type_id') is-invalid @enderror" id="type_id" name="type_id" >
     <option value="">Nessuna tipologia</option>
     @foreach($types as $type)
-    <option @if(old('type_id') == $type->id) @endif value="{{ $type->id }}">{{ $type->label }}</option>
+    <option @if(old('type_id', $project->type_id) == $type->id) selected @endif value="{{ $type->id }}">{{ $type->label }}</option>
     @endforeach
     {{-- prova errore --}}
     {{-- <option value="10">Prova errore</option> --}}
@@ -39,9 +47,13 @@ method="POST" class="row gy-3">
   @enderror
 
   {{-- DATE --}}
-
+  
   <label for="date" class="form-label">Date</label>
-  <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date') }}">
+  @if($project->id)
+  <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('project_date', date('Y-m-d', strtotime($project->date))) }}">
+  @else
+  <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="">
+  @endif
   @error('date')
   <div class="invalid-feedback">
     {{ $message }}
@@ -51,7 +63,7 @@ method="POST" class="row gy-3">
   {{-- DESCRIPTION --}}
 
   <label for="description" class="form-label">Description</label>
-  <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ old('description') }}">
+  <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" value="{{ old('description') ?? $project->description }}">
   @error('description')
   <div class="invalid-feedback">
     {{ $message }}
@@ -81,8 +93,5 @@ method="POST" class="row gy-3">
 <div class="col-12 d-flex">
   <button type="submit" class="btn btn-outline-success ms-auto">Save</button>
 </div>
-
-
-
 </form>
 @endsection
