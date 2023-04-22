@@ -20,7 +20,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = Type::all();
+        $types = Type::paginate(10);
         return view('admin.types.index', compact('types'));
     }
 
@@ -31,7 +31,7 @@ class TypeController extends Controller
      */
     public function create(Type $type)
     {
-        return view('admin.types.create', compact('type'));
+        return view('admin.types.form', compact('type'));
     }
 
     /**
@@ -50,7 +50,7 @@ class TypeController extends Controller
             'label.string' => 'la label deve essere una stringa',
             'label.max' => 'la label deve essere massimo dio 30 caratteri',
 
-            'color.string' => 'il colore è obbligatorio',
+            'color.required' => 'il colore è obbligatorio',
             'color.string' => 'il colore deve essere una stringa',
             'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
         ]);
@@ -59,8 +59,9 @@ class TypeController extends Controller
         $type->fill($request->all());
         $type->save();
 
-        return to_route('admin.types.show', $type)
+        return to_route('types.show', $type)
         ->with('message_content', "Tipologia $type->id creata con successo");
+        // return redirect()->route('types.index', $type);
     }
 
     /**
@@ -71,9 +72,6 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-    
-        $types = new Type;
-        
         return view('admin.types.show', compact('type'));
     }
 
@@ -85,8 +83,8 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        $types = new Type;
-        return view('admin.types.edit', compact('type'));
+        // $types = new Type;
+        return view('admin.types.form', compact('type'));
     }
 
     /**
@@ -106,17 +104,18 @@ class TypeController extends Controller
             'label.string' => 'la label deve essere una stringa',
             'label.max' => 'la label deve essere massimo dio 30 caratteri',
 
-            'color.string' => 'il colore è obbligatorio',
+            'color.required' => 'il colore è obbligatorio',
             'color.string' => 'il colore deve essere una stringa',
             'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
         ]);
 
         
         $type->update($request->all());
-        $type->save();
 
-        return to_route('admin.types.show', $type)
+        return to_route('types.show', $type)
         ->with('message_content', "Tipologia $type->id modificata con successo");
+
+        // return redirect()->route('types.index', $type);
     }
 
     /**
@@ -128,7 +127,8 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         $type->delete();
-        return redirect()->route('admin.types.index')
+        // return redirect()->route('types.index');
+        return to_route('types.index')
         ->with('message_type', "danger")
         ->with('message_content', "Tipologia $type->id eliminata con successo");
     }

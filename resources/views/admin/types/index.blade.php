@@ -48,14 +48,14 @@
           <i class="bi bi-pencil-fill me-3"></i>
         </a>
 
-        <button class="bi bi-trash3-fill text-danger btn-trash" data-bs-toggle="modal" data-bs-target="#delete-type-{{ $type->id }}"></button>
+        <button class="bi bi-trash3-fill text-danger btn-trash" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $type->id }}"></button>
       </td>
     </tr>
     @empty
     @endforelse
   </tbody>
 </table>
-{{-- {{ $types->links() }} --}}
+{{ $types->links() }}
 @endsection
 
 @section('modals')

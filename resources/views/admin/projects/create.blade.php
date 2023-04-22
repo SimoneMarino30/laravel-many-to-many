@@ -14,7 +14,7 @@ method="POST" class="row gy-3">
 {{-- TITLE --}}
 <div class="col-6">
   <label for="title" class="form-label">Title</label>
-  <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}">
+  <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title">
   @error('title')
   <div class="invalid-feedback">
     {{ $message }}
