@@ -32,7 +32,7 @@
                             <a class="nav-link @if(request()->routeIs('types.index*')) active @endif" href="{{ route('types.index') }}">{{ __('Stacks') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @if(request()->routeIs('tasks.index*')) active @endif" href="{{ route('tasks.index') }}">{{ __('Tasks') }}</a>
+                            <a class="nav-link @if(request()->routeIs('technologies.index*')) active @endif" href="{{ route('technologies.index') }}">{{ __('Technologies') }}</a>
                         </li>
                     </ul>
                     @endauth

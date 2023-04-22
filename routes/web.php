@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\Admin\TechnologyController;
 use App\Http\Controllers\Admin\TaskController;
 
 // GUEST
@@ -39,6 +40,9 @@ Route::get('/home', [AdminHomeController::class, 'index'])->middleware('auth')->
 
 // types routes all resources
 Route::resource('types', TypeController::class);
+
+// technologies routes all resources
+Route::resource('technologies', TechnologyController::class);
 
 // tasks routes all resources
 Route::resource('tasks', TaskController::class);
