@@ -21,5 +21,6 @@
       </div>      
     </div>
   @empty
+  🤷‍♂️
   @endforelse
 @endsection

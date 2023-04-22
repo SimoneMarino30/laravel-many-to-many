@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Type;
+
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Validator;
 
@@ -28,10 +29,9 @@ class TypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Type $type)
     {
-        $types = Type::all();
-        return view('admin.types.create', compact('types'));
+        return view('admin.types.create', compact('type'));
     }
 
     /**
@@ -71,6 +71,9 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
+    
+        $types = new Type;
+        
         return view('admin.types.show', compact('type'));
     }
 
@@ -82,6 +85,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
+        $types = new Type;
         return view('admin.types.edit', compact('type'));
     }
 

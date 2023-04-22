@@ -12,21 +12,15 @@ method="POST" class="row gy-3">
 @csrf
 
 {{-- TITLE --}}
-<label for="type_id" class="form-label">Stack</label>
-  <select class="form-select @error('type_id') is-invalid @enderror" id="type_id" name="type_id" >
-    <option value="">Default</option>
-    @foreach($types as $type)
-    <option @if(old('type_id') == $type->id) @endif value="{{ $type->id }}">{{ $type->label }}</option>
-    
-    @endforeach
-    {{-- prova errore --}}
-    {{-- <option value="10">Prova errore</option> --}}
-  </select>
-  @error('type_id')
-  <div class="invalid-feedback">
-    {{ $message }}
+<div class="my-3">
+    <label for="marca" class="form-label badge text-bg-primary fs-6">Marca</label>
+    <input type="text" class="form-control @error('marca') is-invalid @enderror" id="marca" name="marca" value="{{ old('marca') ?? $type->label }}">
+    @error('marca')
+    <div class="invalid-feedback">
+      {{ $message }}
+    </div>
+    @enderror
   </div>
-  @enderror
 
   {{-- SELECT TYPE --}}
   

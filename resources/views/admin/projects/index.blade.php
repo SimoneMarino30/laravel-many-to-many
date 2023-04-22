@@ -28,7 +28,7 @@
     </tr>
   </thead>
   <tbody>
-    @forelse($projects as $project)
+  @forelse($projects as $project)
     <tr>
       <th scope="row">{{ $project->id }}</th>
       <td>{{ $project->title }}</td>
@@ -48,16 +48,15 @@
         <a href="{{ route('admin.projects.show', $project) }}">
         <i class="bi bi-eye-fill me-3"></i>
         </a>
-
         <a href="{{ route('admin.projects.edit', $project) }}">
           <i class="bi bi-pencil-fill me-3"></i>
         </a>
-
         <button class="bi bi-trash3-fill text-danger btn-trash" data-bs-toggle="modal" data-bs-target="#delete-modal-{{ $project->id }}"></button>
       </td>
     </tr>
-    @empty
-    @endforelse
+  @empty
+  🤷‍♂️ 
+  @endforelse
   </tbody>
 </table>
 {{ $projects->links() }}
