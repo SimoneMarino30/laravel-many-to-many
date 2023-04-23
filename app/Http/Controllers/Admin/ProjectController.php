@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+// MODELS
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -40,7 +44,9 @@ class ProjectController extends Controller
     {
         $project = new Project;
         $types = Type::all();
-        return view('admin.projects.form', compact('project', 'types'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.form', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -65,6 +71,8 @@ class ProjectController extends Controller
         $project->fill($data);
         $project->save();
 
+        if(Arr::exists($data, "technologies")) $project->technologies()->attach($data["technologies"]);
+
         return redirect()->route('admin.projects.show', $project);
     }
 
@@ -87,8 +95,12 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $types = Type::all();   
-        return view('admin.projects.form', compact('project', 'types'));
+        $types = Type::all();
+        $technologies = Technology::all();
+        $project_technologies = $project->technologies->pluck('id')->toArray();
+        // dd($project_technologies);
+ 
+        return view('admin.projects.form', compact('project', 'types', 'technologies', 'project_technologies'  ));
     }
 
     /**
@@ -100,6 +112,7 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {   
+        // dd($request->all());
         $data = $this->validation($request->all());
 
             if(Arr::exists($data, 'link')) {
@@ -108,8 +121,13 @@ class ProjectController extends Controller
         }
         
         $project->update($data);
-        return to_route('admin.projects.show', $project);
-        // ->with('message_content', "Project $project->id modificato con successo!");
+
+        if(Arr::exists($data, "technologies")) $project->technologies()->sync($data["technologies"]);
+        else $project->technologies()->detach();
+
+        // return view('admin.projects.show', compact('project'));
+        return to_route('admin.projects.show', $project)
+        ->with('message_content', "Project $project->id modificato con successo!");
     }
 
     /**
@@ -134,8 +152,8 @@ class ProjectController extends Controller
             'date' => 'required|string',
             'description' => 'nullable|string',
             'type_id' => 'nullable|exists:types,id',
-            // 'label' => 'required|string|max:30',
-            // 'color' => 'required|string|size:7',
+            'technology_id' => 'nullable|exists:technology,id',
+            
         ],
         [
             'title.required' => 'il titolo è obbligatorio',
@@ -152,13 +170,7 @@ class ProjectController extends Controller
 
             'type_id.exists' => 'l\' ID della tipologia non è valido',
 
-            // 'label.required' => 'la label è obbligatoria',
-            // 'label.string' => 'la label deve essere una stringa',
-            // 'label.max' => 'la label deve essere massimo dio 30 caratteri',
-
-            // 'color.required' => 'il colore è obbligatorio',
-            // 'color.string' => 'il colore deve essere una stringa',
-            // 'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
+            'technology_id.exists' => 'l\' ID della tecnologia non è valido',
 
 
         ])->validate();
