@@ -49,14 +49,14 @@
      {{-- CHECKBOX TECH --}}
 
     <div class="">
-      <label for="technology_id" class="form-label">Tech</label>
+      <label for="technologies" class="form-label">Tech</label>
     </div>
-    <div class="form-check @error('technology_id') is-invalid @enderror">
+    <div class="form-check @error('technologies') is-invalid @enderror">
       @foreach ($technologies as $technology)
       <input type="checkbox" id="technology-{{ $technology->id }}" value="{{ $technology->id }}" name="technologies[]" class="form-check-control" 
       {{-- ?? = SE LA VARIABILE $project_technologies ESISTE USALA, ALTRIMENTI USA L'ARRAY VUOTO --}}
-      @if(in_array($technology->id, old('technologies', $project_technologies ?? []))) checked @endif> 
-      <label for="technology-{{ $technology->id }}">{{ $technology->label }}</label> 
+      @if(in_array($technology->id, old($technology->id, $project_technologies ?? []))) checked @endif> 
+      <label for="technologies-{{ $technology->id }}">{{ $technology->label }}</label> 
       <br>
       @endforeach
 
@@ -65,7 +65,7 @@
       <label for="technology_10">schifio</label> 
       <br>
 
-      @error('technology_id')
+      @error('technologies')
         <div class="invalid-feedback">
           {{ $message }}
         </div>

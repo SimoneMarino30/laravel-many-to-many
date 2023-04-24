@@ -47,6 +47,7 @@ class ProjectController extends Controller
         $technologies = Technology::all();
 
         return view('admin.projects.form', compact('project', 'types', 'technologies'));
+        
     }
 
     /**
@@ -58,21 +59,21 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $data = $this->validation($request->all());
-
+        
         // dd($data);
-
+        
         if(Arr::exists($data, 'link')) {
             $path = Storage::put('uploads/projects', $data['link']);
             $data['link'] = $path;
         }
-
+        
         $project = new Project;
-
+        
         $project->fill($data);
         $project->save();
-
+        // dd($data);
         if(Arr::exists($data, "technologies")) $project->technologies()->attach($data["technologies"]);
-
+        // dd($data["technologies"]);
         return redirect()->route('admin.projects.show', $project);
     }
 
@@ -152,7 +153,7 @@ class ProjectController extends Controller
             'date' => 'required|string',
             'description' => 'nullable|string',
             'type_id' => 'nullable|exists:types,id',
-            'technology_id' => 'nullable|exists:technology,id',
+            'technology_id' => 'nullable|exists:technologies,id',
             
         ],
         [
@@ -170,7 +171,7 @@ class ProjectController extends Controller
 
             'type_id.exists' => 'l\' ID della tipologia non è valido',
 
-            'technology_id.exists' => 'l\' ID della tecnologia non è valido',
+            'technology_id.exists' => 'la tecnologia selezionata non è valida',
 
 
         ])->validate();

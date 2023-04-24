@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+// use Illuminate\Support\Facades\Validator;
 
 class TechnologyController extends Controller
 {
@@ -39,24 +39,21 @@ class TechnologyController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'label' => 'required|string|max:30',
-        //     'color' => 'required|string|size:7',
-        // ], [
-        //     'label.required' => 'la label è obbligatoria',
-        //     'label.string' => 'la label deve essere una stringa',
-        //     'label.max' => 'la label deve essere massimo dio 30 caratteri',
+        $request->validate([
+            'label' => 'required|string|max:30',
+            'color' => 'required|string|size:7',
+        ], [
+            'label.required' => 'la label è obbligatoria',
+            'label.string' => 'la label deve essere una stringa',
+            'label.max' => 'la label deve essere massimo dio 30 caratteri',
 
-        //     'color.required' => 'il colore è obbligatorio',
-        //     'color.string' => 'il colore deve essere una stringa',
-        //     'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
-        // ]);
-
-        $data = $this->validation($request->all());
+            'color.required' => 'il colore è obbligatorio',
+            'color.string' => 'il colore deve essere una stringa',
+            'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
+        ]);
         
-
         $technology = new Technology();
-        $technology->fill($data);
+        $technology->fill($request->all());
         $technology->save();
 
         // ! return to_route('technologies.index', $technology)
@@ -95,23 +92,21 @@ class TechnologyController extends Controller
      */
     public function update(Request $request, Technology $technology)
     {
-        // $request->validate([
-        //     'label' => 'required|string|max:30',
-        //     'color' => 'required|string|size:7',
-        // ], [
-        //     'label.required' => 'la label è obbligatoria',
-        //     'label.string' => 'la label deve essere una stringa',
-        //     'label.max' => 'la label deve essere massimo dio 30 caratteri',
+        $request->validate([
+            'label' => 'required|string|max:30',
+            'color' => 'required|string|size:7',
+        ], [
+            'label.required' => 'la label è obbligatoria',
+            'label.string' => 'la label deve essere una stringa',
+            'label.max' => 'la label deve essere massimo dio 30 caratteri',
 
-        //     'color.required' => 'il colore è obbligatorio',
-        //     'color.string' => 'il colore deve essere una stringa',
-        //     'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
-        // ]);
+            'color.required' => 'il colore è obbligatorio',
+            'color.string' => 'il colore deve essere una stringa',
+            'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
+        ]);
 
-        // $data = $this->validation($request->all()); 
-
-        $data = $this->validation($request->all());
-        $technology->update($data);
+    
+        $technology->update($request->all());
 
         return to_route('technologies.index', $technology)
         ->with('message_content', "Tecnologia $technology->id modificata con successo");
@@ -134,22 +129,24 @@ class TechnologyController extends Controller
         ->with('message_content', "Tipologia $technology->id eliminata con successo");
     }
 
-    private function validation($data) {
-       $validator = Validator::make(
-            $data,
-            [
-            'label' => 'required|string|max:30',
-            'color' => 'required|string|size:7',
-        ], [
-            'label.required' => 'la label è obbligatoria',
-            'label.string' => 'la label deve essere una stringa',
-            'label.max' => 'la label deve essere massimo dio 30 caratteri',
+    // private function validation($data) {
+    //    $validator = Validator::make(
+    //         $data,
+    //         [
+    //         'label' => 'required|string|max:30',
+    //         'color' => 'required|string|size:7',
+    //     ], [
+    //         'label.required' => 'la label è obbligatoria',
+    //         'label.string' => 'la label deve essere una stringa',
+    //         'label.max' => 'la label deve essere massimo dio 30 caratteri',
 
-            'color.required' => 'il colore è obbligatorio',
-            'color.string' => 'il colore deve essere una stringa',
-            'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
-        ])->validate();
+    //         'color.required' => 'il colore è obbligatorio',
+    //         'color.string' => 'il colore deve essere una stringa',
+    //         'color.size' => 'il colore deve essere esattamente 7 caratteri (\'#234567\')',
+    //     ])->validate();
 
-        return $validator;
-    }
+    //     return $validator;
+    // }
+
+    // $data = $this->validation($request->all()); -> update&store
 }
