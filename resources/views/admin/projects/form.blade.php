@@ -37,8 +37,8 @@
     @foreach($types as $type)
     <option @if(old('type_id', $project->type_id) == $type->id) selected @endif value="{{ $type->id }}">{{ $type->label }}</option>
     @endforeach
-    {{-- prova errore
-    <option value="10">Prova errore</option> --}}
+    {{-- prova errore --}}
+    <option value="10">Prova errore</option>
   </select>
   @error('type_id')
   <div class="invalid-feedback">
@@ -48,15 +48,15 @@
 
      {{-- CHECKBOX TECH --}}
 
-    <div class="">
-      <label for="technologies" class="form-label">Tech</label>
-    </div>
-    <div class="form-check @error('technologies') is-invalid @enderror">
+    
+    <label for="technologies" class="form-label">Tech</label>
+   
+    <div class="form-check @error('technologies') is-invalid @enderror p-0">
       @foreach ($technologies as $technology)
       <input type="checkbox" id="technology-{{ $technology->id }}" value="{{ $technology->id }}" name="technologies[]" class="form-check-control" 
       {{-- ?? = SE LA VARIABILE $project_technologies ESISTE USALA, ALTRIMENTI USA L'ARRAY VUOTO --}}
       @if(in_array($technology->id, old($technology->id, $project_technologies ?? []))) checked @endif> 
-      <label for="technologies-{{ $technology->id }}">{{ $technology->label }}</label> 
+      <label for="technology-{{ $technology->id }}">{{ $technology->label }}</label> 
       <br>
       @endforeach
 

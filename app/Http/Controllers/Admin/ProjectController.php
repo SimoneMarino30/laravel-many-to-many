@@ -66,14 +66,15 @@ class ProjectController extends Controller
             $path = Storage::put('uploads/projects', $data['link']);
             $data['link'] = $path;
         }
-        
         $project = new Project;
         
+        
         $project->fill($data);
+        // dd($data);
         $project->save();
         // dd($data);
         if(Arr::exists($data, "technologies")) $project->technologies()->attach($data["technologies"]);
-        // dd($data["technologies"]);
+        // dd($data);
         return redirect()->route('admin.projects.show', $project);
     }
 
@@ -99,9 +100,10 @@ class ProjectController extends Controller
         $types = Type::all();
         $technologies = Technology::all();
         $project_technologies = $project->technologies->pluck('id')->toArray();
-        // dd($project_technologies);
+        
  
         return view('admin.projects.form', compact('project', 'types', 'technologies', 'project_technologies'  ));
+        
     }
 
     /**
@@ -121,11 +123,14 @@ class ProjectController extends Controller
             $data['link'] = $path;
         }
         
-        $project->update($data);
 
+        $project->update($data);
+        
         if(Arr::exists($data, "technologies")) $project->technologies()->sync($data["technologies"]);
         else $project->technologies()->detach();
+        // dd($data);
 
+         
         // return view('admin.projects.show', compact('project'));
         return to_route('admin.projects.show', $project)
         ->with('message_content', "Project $project->id modificato con successo!");
@@ -153,7 +158,7 @@ class ProjectController extends Controller
             'date' => 'required|string',
             'description' => 'nullable|string',
             'type_id' => 'nullable|exists:types,id',
-            'technology_id' => 'nullable|exists:technologies,id',
+            'technologies' => 'nullable|exists:technologies,id',
             
         ],
         [
@@ -171,7 +176,7 @@ class ProjectController extends Controller
 
             'type_id.exists' => 'l\' ID della tipologia non è valido',
 
-            'technology_id.exists' => 'la tecnologia selezionata non è valida',
+            'technologies.exists' => 'la tecnologia selezionata non è valida',
 
 
         ])->validate();
